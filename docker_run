@@ -1,0 +1,1 @@
+sudo docker run -it -d --privileged=true --cap-add SYS_ADMIN --security-opt=seccomp:unconfined -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/lib/docker -p 30001:30001 --name k8s-master k8s-master:0.0.4 /sbin/init
