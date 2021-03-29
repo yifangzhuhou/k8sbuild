@@ -10,19 +10,19 @@
 
 我感觉Pivotal公司对云原生特性的概括是非常精炼的，包括以下4点
 
-1。 微服务
+1. 微服务
 
 微服务大体是指以"高内聚，低耦合"为原则将服务按照功能进行切分，这样一来就可以非常方便地维护和变更子服务，而不会影响到整体服务的正常运行。 
 
-2。 容器化
+2. 容器化
 
 容器化为微服务提供实施保障，起到应用隔离的作用。 具体来说就是将服务与依赖环境一同打包到容器中，只需一键部署容器就能实现服务在不同平台上运行。 因为微服务化和集群化后的容器应用非常多，所以需要采取相应的技术对容器进行管理。 目前业界主流的容器化技术是[dokcer][2]+k8s，docker是应用最为广泛的容器引擎，k8s是google推出的容器编排系统。
 
-3。 [DevOps][3]
+3. [DevOps][3]
 
 Dev+Ops的组合词，即开发和运维，实际上还包括QA。它是一种开发流程，目的是让开发、运维和QA可以高效协作，为云原生提供持续交付能力。
 
-4。 持续交付
+4. 持续交付
 
 持续交付是不误时开发，不停机更新，小步快跑，反传统瀑布式开发模型，这要求开发版本和稳定版本并存，其实需要很多流程和工具支撑。
 
@@ -46,7 +46,7 @@ Docker版本: 19.03.06
 
 ```json
 {
-    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"] //中科大镜像源
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
 }
 ```
 
@@ -93,7 +93,7 @@ apt update && apt install docker.io & apt install systemd
 
 ```json
 {
-    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"] //中科大镜像源
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
 }
 ```
 
