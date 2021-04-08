@@ -80,7 +80,7 @@ sudo docker pull ubuntu:18.04
 然后在该镜像基础上启动一个容器，
 
 ```bash
-sudo docker run -it -d --privileged=true --cap-add SYS_ADMIN --security-opt=seccomp:unconfined -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/lib/docker -v ~/workspace/src/k8s-learn:/tmp/config -p 30001:30001 --name k8s-master ubuntu:18.04 /sbin/init
+sudo docker run -it -d --privileged=true --cap-add SYS_ADMIN --security-opt=seccomp:unconfined -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/lib/docker -v ~/workspace/src/k8s-learn/config:/tmp/config -p 30001:30001 --name k8s-master ubuntu:18.04 /sbin/init
 ```
 
 这里稍微解释一下部分命令行参数的作用。
