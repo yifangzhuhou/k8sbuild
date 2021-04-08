@@ -6,6 +6,7 @@
     * [环境要求](#环境要求)
     * [制作master镜像](#制作master镜像)
     * [制作node镜像](#制作node镜像)
+    * [推送到私人仓库](#推送到私人仓库)
 
 <!-- vim-markdown-toc -->
 
@@ -277,6 +278,15 @@ ea29cb9a43c2   Ready    master   42m     v1.19.0
 
 从上图能观察到`de3326795ca8`已经成功加入集群。
 
+## 推送到私人仓库
+
+我将制作好的master和node镜像推送到自己的[私人仓库][10]上，方便在其他单机平台上拉取使用，快速创建k8s模拟集群学习使用，方式如下
+
+```bash
+sudo docker pull yifangzhuhou/k8s-master:0.0.1
+sudo docker pull yifangzhuhou/k8s-node:0.0.1
+```
+
 [1]: https://zhuanlan.zhihu.com/p/150190166?utm_source=wechat_session
 [2]: https://www.qikqiak.com/k8s-book/docs/2.Docker%20%E7%AE%80%E4%BB%8B.html
 [3]: https://www.jianshu.com/p/c5d002cf25b9
@@ -286,3 +296,4 @@ ea29cb9a43c2   Ready    master   42m     v1.19.0
 [7]: https://github.com/flannel-io/flannel#flannel
 [8]: https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 [9]: https://blog.tekspace.io/kubernetes-dashboard-remote-access/
+[10]: https://hub.docker.com/u/yifangzhuhou
