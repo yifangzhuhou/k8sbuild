@@ -128,3 +128,21 @@ livenessProbe: 指示容器是否正在运行，如果探测失败，则kubelet�
 
 readinessProbe: 指示容器是否准备好提供服务，如果探测失败，端点控制器将从pod匹配的所有service中删除该pod。初始延迟之前的就绪状态默认为failure，
 如果容器不提供就绪探针，则默认状态为success
+
+# Service
+
+## ClusterIP
+
+默认类型，创建一个vip和端口仅供集群内部访问该服务
+
+## NodePort
+
+以ClusterIP为基础，在每个Node上开放NodePort供外部访问到该访问
+
+## LoadBalancer
+
+以NodePort为基础，借助云供应商创建负载均衡器，将请求转发到NodeIP:NodePort上
+
+## ExternalName
+
+将集群外部服务引入到集群内部使用

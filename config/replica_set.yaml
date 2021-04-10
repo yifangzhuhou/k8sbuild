@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rstest
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: rstest
+      tier: backend
+  template: 
+    metadata:
+      labels: 
+        app: rstest
+        tier: backend
+    spec:
+      containers:
+        - name: get-started
+          image: yifangzhuhou/get-started:part2
+

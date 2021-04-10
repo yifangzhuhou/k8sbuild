@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      release: stable
+  template:
+    metadata:
+      labels:
+        app: myapp
+        release: stable
+    spec:
+      containers:
+      - name: myapp
+        image: wangyanglinux/myapp:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 80

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-pod
+  template:
+    metadata: 
+      labels:
+        app: deploy-pod
+    spec:
+      containers:
+      - name: get-started
+        image: yifangzhuhou/get-started:0.0.2
+
+
+  
