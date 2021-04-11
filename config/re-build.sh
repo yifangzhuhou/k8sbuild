@@ -20,20 +20,22 @@ systemctl restart kubelet
 
 kubectl apply -f /tmp/config/flannel.yaml
 
-sed -i '160a\      nodePort: 30001' /tmp/config/dashboard.yaml
+sed -i '160a\      nodePort: 30001' /tmp/config/dashboard/dashboard.yaml
 
-sed -i '157a\  type: NodePort' /tmp/config/dashboard.yaml
+sed -i '157a\  type: NodePort' /tmp/config/dashboard/dashboard.yaml
 
 docker pull  mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.10.1
 
 docker tag mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.10.1 k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1
 
-kubectl create -f /tmp/config/dashboard.yaml
+kubectl create -f /tmp/config/dashboard/dashboard.yaml
 
-kubectl create -f /tmp/config/dashboard-access.yaml
+kubectl create -f /tmp/config/dashboard/dashboard-access.yaml
 
-sed -i '/nodePort: 30001/d' /tmp/config/dashboard.yaml
+sed -i '/nodePort: 30001/d' /tmp/config/dashboard/dashboard.yaml
 
-sed -i '/type: NodePort/d' /tmp/config/dashboard.yaml
+sed -i '/type: NodePort/d' /tmp/config/dashboard/dashboard.yaml
+
+sleep 1
 
 kubectl get pods -n kube-system | grep dash | awk -F ' ' '{print $1}' | xargs kubectl describe -n kube-system pod | grep SecretName | grep token | awk -F ' ' '{print $2}' | xargs kubectl describe -n kube-system secret | grep token: | awk -F ' ' '{print $2}'
