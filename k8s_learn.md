@@ -146,3 +146,28 @@ readinessProbe: 指示容器是否准备好提供服务，如果探测失败，�
 ## ExternalName
 
 将集群外部服务引入到集群内部使用
+
+# Ingress
+
+从前面学习可知k8s常见的暴露服务方式，但是存在以下问题
+
+## Pod漂移
+
+k8s能够在任意时刻维持期望数量的Pod副本，也就是说，挂掉的Pod可能在其他node上创建，多余的Node会被回收，随着pod的创建与销毁，Pod ip也必然发生变化，那么如何将Pod ip的动态变化暴露给外部？
+这里可以借助NodePort类型的Service机制实现，它根据Label选定一组Pod，并监控和自动负载这些Pod ip，那么只需向外暴露Service vip就足够了。它会在每个Node上开启端口接收外部流量并转发到内部Pod上。
+
+## 端口管理
+
+NodePort Service存在一个缺陷是，当需要暴露的服务越来越多时，在Node上开启的端口也就越来越多，导致难以管理维护这些端口。那么我们可以考虑只创建一个NodePort Service，其中运行Nginx Pod，它是
+外部访问的唯一入口，基于域名和访问路径将请求转发到对应的集群内部Service上。
+
+## 域名分配及动态更新
+
+如果后续有其他服务陆续加入集群并需要暴露给外部访问，那么需要添加路由规则至Nginx配置后生成新的Nginx镜像，滚动更新Nginx Pod才能实现。这种做法未免太过麻烦。为了方便管理和更新配置，[Ingress][1]应运而生。
+
+## Ingress及Ingress Controller
+
+你可以利用Ingress对象编写路由规则，再由Ingress Controller与ApiServer交互监听到Ingress的规则变化，并生成对应的Nginx配置，更新到Nginx Pod中。
+可以看出，Ingress是一组规则的集合，扮演着Nginx配置的角色，而Ingress Controller则负责服务发现，反向代理和负载均衡。
+
+[1]: https://www.cnblogs.com/linuxk/p/9706720.html
