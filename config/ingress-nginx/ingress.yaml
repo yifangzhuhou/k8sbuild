@@ -2,12 +2,18 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-nginx-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: www.zhangli07.com
     http:
       paths:
-      - path: /
+      - path: /part1
         backend:
           serviceName: myapp
+          servicePort: 80
+      - path: /part2
+        backend:
+          serviceName: myapp2
           servicePort: 80

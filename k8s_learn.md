@@ -1,29 +1,41 @@
 # 组件说明
 
 ApiServer: 所有服务的统一访问入口
+
 ControlManager: 维持pod副本期望数目
+
 Scheduler: 负载调度任务，选择合适的节点分配任务
+
 Etcd: 分布式kv数据库，存储k8s集群所有重要信息(持久化)
+
 Kubelet: 跟容器引擎(container runtime)交互实现容器的生命周期管理
+
 Kube-proxy: 负责写入规则至iptables，ipvs实现服务映射访问
+
 CoreDNS: 负责k8s集群中service的域名解析
+
 Dashboard: web ui管理工具，给k8s集群提供一个B/S结构的访问体系
+
 Ingress Conttoller: 官方只提供4层负载均衡，可以实现7层负载均衡
+
 Fedetation: 提供跨集群中心多k8s管理功能
+
 Prometheus: 为k8s集群提供监控能力
+
 ELK: 提供k8s集群日志统一分析接入平台
 
 
 # Pod概念
 
-自主pod
-控制器管理的pod
+1. 自主pod
+
+2. 控制器管理的pod
 
 pod中所有业务容器共享pause容器的网络协议栈和存储卷
 
-ReplicationController: 用来保持期望的pod数量，即如果有pod异常退出，会自动创建新pod替换，有多出的pod也会自动回收
-ReplicatSet: 新版本k8s中代替ReplicationController，支持集合式selector
-Deployment: 管理ReplicaSet，这样避免跟其他机制的不兼容，例如Deployment支持Rolling-Update而ReplicaSet不支持
+1. ReplicationController: 用来保持期望的pod数量，即如果有pod异常退出，会自动创建新pod替换，有多出的pod也会自动回收
+2.  ReplicatSet: 新版本k8s中代替ReplicationController，支持集合式selector
+3. Deployment: 管理ReplicaSet，这样避免跟其他机制的不兼容，例如Deployment支持Rolling-Update而ReplicaSet不支持
 
 Horizontal Pod Autoscaling: 仅适用于RS和Deployment，支持根据metric实现pod的弹性扩缩容
 
@@ -51,8 +63,11 @@ k8s网络模型假设所有pod都处在一个可以直连的扁平化网络空�
 ## 网络通信方式
 
 同pod下各容器间: lo
+
 同node下各pod: docker0直接转发
+
 不同node下各pod: overlay network
+
 pod与service间: 各node的iptables规则
 
 Flannel: CoreOS开发，网络规划服务。为不同node分配全局唯一的vip，以这些vip为基础构建覆盖网络(Overlay Network)，实现将数据包从源pod发送到目的pod
@@ -95,9 +110,13 @@ yaml格式
 # pod生命周期
 
 kubectl---->api-server--(etcd)-->kubelet--(cri)-->container runtime---->init C---->main C
+
                                                                                    ------------liveness--------------
+
                                                                                    --start--
+
                                                                                             --readness--
+
                                                                                                              --stop--
 
 
