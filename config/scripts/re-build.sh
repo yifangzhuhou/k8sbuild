@@ -36,6 +36,4 @@ sed -i '/nodePort: 30001/d' /tmp/config/dashboard/dashboard.yaml
 
 sed -i '/type: NodePort/d' /tmp/config/dashboard/dashboard.yaml
 
-sleep 1
-
-kubectl get pods -n kube-system | grep dash | awk -F ' ' '{print $1}' | xargs kubectl describe -n kube-system pod | grep SecretName | grep token | awk -F ' ' '{print $2}' | xargs kubectl describe -n kube-system secret | grep token: | awk -F ' ' '{print $2}'
+#kubectl get pods -n kube-system | grep dash | awk -F ' ' '{print $1}' | xargs kubectl describe -n kube-system pod | grep SecretName | grep token | awk -F ' ' '{print $2}' | xargs kubectl describe -n kube-system secret | grep token: | awk -F ' ' '{print $2}'

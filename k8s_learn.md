@@ -156,7 +156,7 @@ readinessProbe: 指示容器是否准备好提供服务，如果探测失败，�
 
 ## NodePort
 
-以ClusterIP为基础，在每个Node上开放NodePort供外部访问到该访问
+以ClusterIP为基础，在每个Node上开放NodePort供外部访问到该服务
 
 ## LoadBalancer
 
@@ -172,7 +172,7 @@ readinessProbe: 指示容器是否准备好提供服务，如果探测失败，�
 
 ## Pod漂移
 
-k8s能够在任意时刻维持期望数量的Pod副本，也就是说，挂掉的Pod可能在其他node上创建，多余的Node会被回收，随着pod的创建与销毁，Pod ip也必然发生变化，那么如何将Pod ip的动态变化暴露给外部？
+k8s能够在任意时刻维持期望数量的Pod副本，也就是说，挂掉的Pod可能在其他Node上创建，多余的Node会被回收，随着Pod的创建与销毁，Pod ip也必然发生变化，那么如何将Pod ip的动态变化暴露给外部？
 这里可以借助NodePort类型的Service机制实现，它根据Label选定一组Pod，并监控和自动负载这些Pod ip，那么只需向外暴露Service vip就足够了。它会在每个Node上开启端口接收外部流量并转发到内部Pod上。
 
 ## 端口管理

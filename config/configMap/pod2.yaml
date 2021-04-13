@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testcm2-pod
+spec:
+  containers:
+    - name: testcm2
+      image: yifangzhuhou/get-started:part2
+      command: ["/bin/bash","-c","while true;do sleep 60;done;"]   
+      volumeMounts:
+      - name: config-volume
+        mountPath: /app
+  volumes:
+    - name: config-volume
+      configMap:
+        name: cm-demo1
