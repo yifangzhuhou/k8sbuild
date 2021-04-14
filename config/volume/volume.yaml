@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vol-test-pod
+spec:
+  containers:
+  - name: vol-test-container1
+    image: yifangzhuhou/get-started:part2
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: cache-volume
+      mountPath: /hello/world/
+  - name: vol-test-container2
+    image: ubuntu:18.04
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/bash","-c","while true;do sleep 30;done;"]
+    volumeMounts:
+    - name: cache-volume
+      mountPath: /hello/world/
+  volumes:
+  - name: cache-volume
+    emptyDir: {}
+  imagePullSecrets:
+  - name: myregistry

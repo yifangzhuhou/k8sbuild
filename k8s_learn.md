@@ -189,4 +189,21 @@ NodePort Service存在一个缺陷是，当需要暴露的服务越来越多时�
 你可以利用Ingress对象编写路由规则，再由Ingress Controller与ApiServer交互监听到Ingress的规则变化，并生成对应的Nginx配置，更新到Nginx Pod中。
 可以看出，Ingress是一组规则的集合，扮演着Nginx配置的角色，而Ingress Controller则负责服务发现，反向代理和负载均衡。
 
+# ConfigMap
+
+ConfigMap提供向容器内注入配置信息的能力，不仅可以保存单个属性，也可以保存整个配置文件。它使用key-value形式的键值对来配置非敏感数据。如果需要保存密钥证书之类的敏感数据，则需要使用
+Secrets来进行管理
+
+## 创建方式
+
+1. 通过文件目录进行创建`--from-file=/path/to/dir/`
+2. 指定文件进行创建`--from-file=/path/to/file`
+3. 直接使用字符串进行创建`--from-literal`
+
+## 使用方式
+
+1. 设置环境变量
+2. 设置命令行参数，本质上是将环境变量当做命令行参数使用
+3. 将configMap配置数据导入数据卷
+
 [1]: https://www.cnblogs.com/linuxk/p/9706720.html

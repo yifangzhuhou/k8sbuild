@@ -91,7 +91,7 @@ sudo docker run -it -d --privileged=true --cap-add SYS_ADMIN --security-opt=secc
 | --privileged=true -v /var/lib/docker       | 将宿主机目录`/var/lib/docker`挂载到容器内部，如果不这样做，容器内就无法运行docker引擎。[(参考资料)][5] |
 | --cap-add SYS_ADMIN --security-opt=seccomp:unconfined -v /sys/fs/cgroup:/sys/fs/cgroup:ro /sbin/init | 在容器内给予systemd管理服务的权限，包括docker在内。[(参考资料)][6] | 
 | -p 30001:30001          | 将宿主机端口30001映射到容器端口30001，从而访问到容器内的dashboard进行可视化管理k8s集群 |
-| -v ~/workspace/src/k8s-learn/config:/tmp/config | 将宿主机的config目录挂载到容器内的/tmp/config，该目录存放初始化master节点时所需的配置文件及脚本，后续介绍 |
+| -v ~/workspace/src/k8s-learn/config:/tmp/config | 将宿主机的[config](config/)目录挂载到容器内的/tmp/config，该目录存放初始化master节点时所需的配置文件及脚本，后续介绍 |
 
 
 可以发现设置这些参数基本上是为了在master容器内安装并运行docker，这样k8s可以通过CRI与docker交互管理各种资源对象的容器。
@@ -286,7 +286,6 @@ ea29cb9a43c2   Ready    master   42m     v1.19.0
 sudo docker pull yifangzhuhou/k8s-master:0.0.1
 sudo docker pull yifangzhuhou/k8s-node:0.0.1
 ```
-
 [1]: https://zhuanlan.zhihu.com/p/150190166?utm_source=wechat_session
 [2]: https://www.qikqiak.com/k8s-book/docs/2.Docker%20%E7%AE%80%E4%BB%8B.html
 [3]: https://www.jianshu.com/p/c5d002cf25b9
