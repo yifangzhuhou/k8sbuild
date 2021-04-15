@@ -18,7 +18,7 @@ kubeadm init --kubernetes-version=v1.19.0 --pod-network-cidr=10.244.0.0/16 --ima
 
 sed -i 's/- --port=0/\#- --port=0/g' $K8S_MANIFEST/kube-controller-manager.yaml
 
-sed -i 's/- --port=0/\#- --port=0/g' $K8S_MANIFEST/manifests/kube-scheduler.yaml
+sed -i 's/- --port=0/\#- --port=0/g' $K8S_MANIFEST/kube-scheduler.yaml
 
 systemctl restart kubelet
 

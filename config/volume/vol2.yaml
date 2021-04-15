@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vol-test-pod2
+spec:
+  containers:
+  - name: vol-test-container
+    image: yifangzhuhou/get-started:part2
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: vol-test
+      mountPath: /mount/path
+  volumes:
+  - name: vol-test
+    hostPath:
+      path: /data

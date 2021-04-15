@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pvc-sts
+spec:
+  replicas: 3
+  serviceName: pvc-svc 
+  selector:
+    matchLabels:
+      app: pvc-pod
+  template:
+    metadata:
+      labels:
+        app: pvc-pod
+    spec:
+      containers:
+      - name: myapp
+        image: wangyanglinux/myapp:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: web
+          containerPort: 80
+        volumeMounts:
+        - name: pvc
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: pvc
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pvc-svc
+spec:
+  selector:
+    app: pvc-pod
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: web
+

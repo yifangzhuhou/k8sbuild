@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvc-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pvc-pod
+  template:
+    metadata:
+      labels:
+        app: pvc-pod
+    spec:
+      containers:
+      - name: myapp
+        image: wangyanglinux/myapp:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: web
+          containerPort: 80
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: www
+        persistentVolumeClaim:
+          claimName: pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pvc-svc
+spec:
+  selector:
+    app: pvc-pod
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: web
+
