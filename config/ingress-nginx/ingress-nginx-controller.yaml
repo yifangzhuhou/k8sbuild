@@ -277,6 +277,7 @@ spec:
   ports:
     - name: http
       port: 80
+      nodePort: 30002
       protocol: TCP
       targetPort: http
     - name: https
