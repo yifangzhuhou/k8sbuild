@@ -2,20 +2,22 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-nginx-prometheus
-  namespace: kube-ops
+  namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-  - host: www.zhangli07.com
+  - host: prometheus.zhangli07.com
     http:
       paths:
       - path: /(.*)
         backend:
-          serviceName: prometheus
+          serviceName: prometheus-k8s
           servicePort: 9090
-      - path: /prometheus
+  - host: grafana.zhangli07.com
+    http:
+      paths:   
+      - path: /(.*)
         backend:
-          serviceName: prometheus
-          servicePort: 9090
-
+          serviceName: grafana
+          servicePort: 3000

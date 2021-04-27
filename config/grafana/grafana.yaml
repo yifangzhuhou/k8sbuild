@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    path: /grafana/storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana
+  namespace: kube-ops
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: kube-ops
+  labels:
+    app: grafana
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:5.3.4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: grafana
+        env:
+        - name: GF_SECURITY_ADMIN_USER
+          value: admin
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: admin321
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /api/health
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/health
+            port: 3000
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          subPath: grafana
+          name: storage
+      securityContext:
+        fsGroup: 0
+        runAsUser: 0
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: grafana
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: kube-ops
+  labels:
+    app: grafana
+spec:
+  ports:
+    - port: 3000
+      targetPort: grafana
+  selector:
+    app: grafana
