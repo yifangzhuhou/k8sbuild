@@ -1,9 +1,20 @@
 pipeline {
     agent any
+
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'go version'
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
